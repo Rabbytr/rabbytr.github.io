@@ -5,7 +5,7 @@ var color = ['red','green','teal','yellow','deepskyblue','tomato','pink']
 
 class Tile extends Phaser.Sprite{
     static SIZE = 100
-    static TYPENUM = 12
+    static TYPENUM = 15
     constructor(game, x, y,key, layer, type){
         // var gray = game.add.filter('Gray');
         super(game,x,y,key)

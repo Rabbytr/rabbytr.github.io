@@ -1,6 +1,6 @@
         
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'phaser-example', 
-    { preload: preload, create: create, update:update,type: Phaser.WEBGL });
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'canvas', 
+    { preload: preload, create: create, update:update});
 
 function shuffle(list) {
   const len = list.length;
@@ -22,11 +22,11 @@ function preload() {
 function create() {
     game.stage.backgroundColor = "#c2e9fb";
 
-    window.sky = game.add.sprite(100, 100, 'sky')
+    window.sky = game.add.sprite(200, 400, 'sky')
 
     console.log(window.innerWidth, window.innerHeight)
 
-    window.stack = new TileStack(50,window.innerHeight-250,Tile.SIZE)
+    window.stack = new TileStack(-100,window.innerHeight-600,Tile.SIZE)
 
     initPiles()
 

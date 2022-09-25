@@ -65,7 +65,7 @@ class Tile extends Phaser.Sprite{
 
 
     destroy(){
-        tween = game.add.tween(this).to( { alpha: 0.1 }, 200, 'Linear', true)
+        tween = game.add.tween(this).to( { alpha: 0.1 }, 400, 'Linear', true)
         tween.onComplete.add(()=>{
             super.destroy()
         })

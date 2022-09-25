@@ -104,7 +104,7 @@ function moveToStack (sprite) {
         // unclickable
         sprite.inputEnabled = false
 
-        tween = game.add.tween(sprite).to( { x: put.x, y: put.y }, 200, 'Linear', true)
+        tween = game.add.tween(sprite).to( { x: put.x, y: put.y }, 500, 'Linear', true)
         tween.onComplete.add(()=>{
             stack.eliminate()
         })

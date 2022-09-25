@@ -28,22 +28,31 @@ class TileStack{
 
     eliminate(){
         let tile = this.container[this.currentTileIndex]
+        if (tile===null){
+            return
+        }
+        let type = tile.data.type
         let count = 0
         for(let item of this.container){
             if (item===null)continue
-            if (item.data.type===tile.data.type){
+            if (item.data.type===type){
                 count += 1
             }
         }
         if (count < 3){
             return 
         }
+        count = 0
         for (let i=0; i<this.container.length; i++) {
             let item = this.container[i]
             if (item===null)continue
-            if (item.data.type===tile.data.type){
+            if (item.data.type===type){
                 this.container[i] = null
                 item.destroy()
+                count += 1
+            }
+            if (count==3){
+                break
             }
         }
     }

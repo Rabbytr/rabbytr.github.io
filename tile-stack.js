@@ -5,8 +5,9 @@ class TileStack{
         this.x = x
         this.y = y
         this.tileSize = tileSize  
-        this.currentTileIndex = 8  
         this.container = new Array(7).fill(null)
+
+        this.counter = new Array(Tile.TYPENUM).fill(0)
     }
 
     put(tile){
@@ -17,7 +18,7 @@ class TileStack{
             }
         }
         this.container[index] = tile
-        this.currentTileIndex = index   
+        this.counter[tile.data.type] += 1
         return {
             available: true,
             x: this.x + index*1.2*this.tileSize,
@@ -27,22 +28,16 @@ class TileStack{
     }
 
     eliminate(){
-        let tile = this.container[this.currentTileIndex]
-        if (tile===null){
-            return
-        }
-        let type = tile.data.type
-        let count = 0
-        for(let item of this.container){
-            if (item===null)continue
-            if (item.data.type===type){
-                count += 1
+        let type = -1
+        for (let i=0; i<this.counter.length; i++){
+            if(this.counter[i] >= 3){
+                type = i
+                break
             }
         }
-        if (count < 3){
-            return 
-        }
-        count = 0
+        this.counter[type] -= 3
+
+        let count = 0
         for (let i=0; i<this.container.length; i++) {
             let item = this.container[i]
             if (item===null)continue

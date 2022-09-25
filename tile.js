@@ -33,7 +33,7 @@ class Tile extends Phaser.Sprite{
 
     addUpTile(){
         if (this.data.upsNum===0) {
-            this.children[0].tint = 0xeee
+            this.children[0].tint = 0xffffff * Math.random()
         }
         this.data.upsNum += 1
     }

@@ -30,7 +30,8 @@ function preload() {
     const local_level = localStorage.getItem('level')
     if (local_level!==null){
         let tmpLevel = parseInt(local_level)
-        if (tmpLevel===NaN){
+        if (isNaN(tmpLevel)){
+            console.log('debug',tmpLevel)
             localStorage.setItem('level', level)
             tmpLevel = level
         }

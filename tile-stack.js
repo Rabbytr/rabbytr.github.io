@@ -10,7 +10,7 @@ class TileStack{
         this.container = new Array(TileStack.CONTAINERSIZE).fill(null)
         this.text = game.make.text(x, y-this.tileSize, `Available: ${TileStack.CONTAINERSIZE-this.currentNum}`,  
                     { font: "42px Arial", fill: '#ffffff' })
-        sky.addChild(this.text)
+        assistance.addChild(this.text)
 
         console.log(Tile.TYPENUM)
         this.counter = new Array(Tile.TYPENUM).fill(0)

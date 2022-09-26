@@ -1,4 +1,3 @@
-let SUCCESS = false      
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'canvas', 
     { preload: preload, create: create, update:update});
 
@@ -30,7 +29,12 @@ function preload() {
     let level = 1
     const local_level = localStorage.getItem('level')
     if (local_level!==null){
-        level = Math.min(parseInt(local_level), IMAGE_NUM)
+        let tmpLevel = parseInt(local_level)
+        if (tmpLevel===NaN){
+            localStorage.setItem('level', level)
+            tmpLevel = level
+        }
+        level = Math.min(tmpLevel, IMAGE_NUM)
     }else{
         localStorage.setItem('level', level)
     }
@@ -54,6 +58,7 @@ function create() {
     game.stage.backgroundColor = "#c2e9fb";
 
     window.sky = game.add.sprite(200, 400, null)
+    window.assistance = game.add.sprite(200, 400, null)
 
     console.log(window.innerWidth, window.innerHeight)
 
@@ -140,14 +145,13 @@ function moveToStack (sprite) {
 }
 
 function success(){
-    if (SUCCESS){
-        return
+    for(let sprite of sky.children){
+        sprite.inputEnabled = false
     }
-    SUCCESS = true
 
     var textGroup = game.add.group();
     for (var i = 0; i < 48; i++) {
-        textGroup.add(game.make.text(100, 64 + i * 36, '不愧是你小子, 不愧是你小子, 不愧是你小子, 不愧是你小子',  
+        textGroup.add(game.make.text(100, 64 + i * 36, '不愧是你小子, 不愧是你小子, 不愧是你小子, 安敢刷新浏览器',  
             { font: "32px Arial", fill: '#' + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16) }));
     }
 

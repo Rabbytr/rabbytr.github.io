@@ -60,7 +60,7 @@ function goodSequence(num){
 }
 
 function initPiles(){
-    LAYER = 2
+    LAYER = 12
     ROW = 5
     COL = 5
 

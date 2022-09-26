@@ -5,7 +5,7 @@ var color = ['red','green','teal','yellow','deepskyblue','tomato','pink']
 
 class Tile extends Phaser.Sprite{
     static SIZE = 100
-    static TYPENUM = 15
+    static TYPENUM = 2
     constructor(game, x, y,key, layer, type){
         // var gray = game.add.filter('Gray');
         super(game,x,y,key)
@@ -25,6 +25,10 @@ class Tile extends Phaser.Sprite{
         // let text = new Phaser.Text(game,Tile.SIZE/2,Tile.SIZE/2, type.toString())
         // this.addChild(text)
         // text.anchor.set(0.5)
+    }
+
+    static setLevel(level){
+        Tile.TYPENUM = level
     }
 
     static randomType(){

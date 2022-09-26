@@ -1,4 +1,4 @@
-        
+let SUCCESS = false      
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'canvas', 
     { preload: preload, create: create, update:update});
 
@@ -12,16 +12,33 @@ function shuffle(list) {
   return result;
 }
 
+function text() {
+    // 绘制一个蓝色的条
+    var bar = game.add.graphics();
+    bar.beginFill(0x000000, 0.1);
+    bar.drawRect(0, 100, window.innerWidth, 100);
+    // 文本
+    var style = { font: "bold 48px Arial", fill: "#ffffff", boundsAlignH: "center", boundsAlignV: "middle" };
+    text = game.add.text(0, 0, `Avatar: ${Tile.TYPENUM}`, style);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    // x:0 y:100 width:800 height:100
+    text.setTextBounds(0, 100, window.innerWidth, 100);
+}
+
 function preload() {
     const IMAGE_NUM = 17
-    let level = 5
+    let level = 1
     const local_level = localStorage.getItem('level')
     if (local_level!==null){
         level = Math.min(parseInt(local_level), IMAGE_NUM)
+    }else{
+        localStorage.setItem('level', level)
     }
 
     console.log('level: ', level)
     Tile.setLevel(level)
+
+    text()
 
     game.load.image('mtile', 'assets/majiang.png', Tile.SIZE, Tile.SIZE);
 
@@ -36,7 +53,7 @@ function preload() {
 function create() {
     game.stage.backgroundColor = "#c2e9fb";
 
-    window.sky = game.add.sprite(200, 400, 'sky')
+    window.sky = game.add.sprite(200, 400, null)
 
     console.log(window.innerWidth, window.innerHeight)
 
@@ -44,7 +61,7 @@ function create() {
 
     initPiles()
 
-    console.log(sky.children[0], sky.children[5])
+    // sky.visible = false
 }
 
 function goodSequence(num){
@@ -60,7 +77,7 @@ function goodSequence(num){
 }
 
 function initPiles(){
-    LAYER = 12
+    LAYER = Tile.TYPENUM
     ROW = 5
     COL = 5
 
@@ -77,7 +94,7 @@ function initPiles(){
                     return
                 }
 
-                let sprite = new Tile(game, row*102+50*(layer%2),col*102+50*(layer%2), 'mtile',layer, type)
+                let sprite = new Tile(game, row*102+50*(layer%2),col*102+50*(layer%2), 'mtile', layer, type)
             
                 for(let child of sky.children){
                     if (sprite.data.layer===child.data.layer+1&&sprite.mask(child)) {
@@ -123,6 +140,11 @@ function moveToStack (sprite) {
 }
 
 function success(){
+    if (SUCCESS){
+        return
+    }
+    SUCCESS = true
+
     var textGroup = game.add.group();
     for (var i = 0; i < 48; i++) {
         textGroup.add(game.make.text(100, 64 + i * 36, '不愧是你小子, 不愧是你小子, 不愧是你小子, 不愧是你小子',  
@@ -130,7 +152,11 @@ function success(){
     }
 
     const local_level = localStorage.getItem('level')
-    localStorage.setItem('level', parseInt(local_level)+1)
+    if (local_level===null){
+        localStorage.setItem('level', 5)
+    }else{
+        localStorage.setItem('level', parseInt(local_level)+1)
+    }
 }
 
 function failed(){

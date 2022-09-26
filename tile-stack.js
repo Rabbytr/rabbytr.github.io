@@ -1,13 +1,20 @@
 
 
 class TileStack{
+    static CONTAINERSIZE = 7
     constructor(x,y,tileSize){
         this.x = x
         this.y = y
         this.tileSize = tileSize  
-        this.container = new Array(7).fill(null)
+        this.currentNum = 0
+        this.container = new Array(TileStack.CONTAINERSIZE).fill(null)
+        this.text = game.make.text(x, y-this.tileSize, `Available: ${TileStack.CONTAINERSIZE-this.currentNum}`,  
+                    { font: "42px Arial", fill: '#ffffff' })
+        sky.addChild(this.text)
 
+        console.log(Tile.TYPENUM)
         this.counter = new Array(Tile.TYPENUM).fill(0)
+
     }
 
     put(tile){
@@ -19,12 +26,18 @@ class TileStack{
         }
         this.container[index] = tile
         this.counter[tile.data.type] += 1
+        this.tileChange(1)
         return {
             available: true,
             x: this.x + index*1.2*this.tileSize,
             y: this.y,
         }
         
+    }
+
+    tileChange(num){
+        this.currentNum += num
+        this.text.setText(`Available: ${TileStack.CONTAINERSIZE-this.currentNum}`)
     }
 
     eliminate(){
@@ -35,7 +48,11 @@ class TileStack{
                 break
             }
         }
+        if(type==-1){
+            return
+        }
         this.counter[type] -= 3
+        this.tileChange(-3)
 
         let count = 0
         for (let i=0; i<this.container.length; i++) {
